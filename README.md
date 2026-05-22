@@ -1,7 +1,7 @@
 # web-crypto-auth-showcase
 
-[![CI](https://github.com/SamyRai/web-crypto-auth-showcase/actions/workflows/ci.yml/badge.svg)](https://github.com/SamyRai/web-crypto-auth-showcase/actions/workflows/ci.yml)
-[![Deploy to GitHub Pages](https://github.com/SamyRai/web-crypto-auth-showcase/actions/workflows/pages.yml/badge.svg)](https://github.com/SamyRai/web-crypto-auth-showcase/actions/workflows/pages.yml)
+[![CI](https://github.com/SamyRai/web-crypto-auth-showcase/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/SamyRai/web-crypto-auth-showcase/actions/workflows/ci.yml)
+[![Deploy to GitHub Pages](https://github.com/SamyRai/web-crypto-auth-showcase/actions/workflows/pages.yml/badge.svg?branch=main)](https://github.com/SamyRai/web-crypto-auth-showcase/actions/workflows/pages.yml)
 
 **[Live Demo](https://SamyRai.github.io/web-crypto-auth-showcase/)**
 
