@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://SamyRai.github.io/web-crypto-auth-showcase/sitemap.xml

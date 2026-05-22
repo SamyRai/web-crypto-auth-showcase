@@ -4,6 +4,7 @@ import {
   IdentitySidebar,
   ChatWindow,
 } from '../components/cert-chat';
+import { SEO } from '../components/seo/SEO';
 
 export function CertChatPage() {
   const secure = useSecureContext();
@@ -27,6 +28,11 @@ export function CertChatPage() {
 
   return (
     <div className="h-[calc(100vh-3rem)] flex flex-col overflow-hidden bg-stone-100 dark:bg-stone-900">
+      <SEO 
+        title="Cert Chat - E2E Encryption" 
+        description="End-to-End Encrypted chat demo using RSA-OAEP public-key cryptography in the browser."
+        canonical="https://SamyRai.github.io/web-crypto-auth-showcase/cert-chat"
+      />
       {/* Header */}
       <div className="shrink-0 border-b border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-950 px-6 py-3 flex items-center justify-between z-20">
         <div>

@@ -12,7 +12,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build:client": "vite build --outDir dist/static",
+    "build:server": "vite build --ssr src/entry-server.tsx --outDir dist/server",
+    "prerender": "node --experimental-strip-types scripts/prerender.ts",
+    "build": "tsc -b && yarn build:client && yarn build:server && yarn prerender && cp -r dist/static/* dist/",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -33,6 +36,7 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
+    "sharp": "^0.34.5",
     "tailwindcss": "^4",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.48.0",

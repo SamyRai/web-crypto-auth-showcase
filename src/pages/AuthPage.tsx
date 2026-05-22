@@ -14,6 +14,7 @@ import {
   TouchIdNote,
   AuthNav,
 } from '../components/auth';
+import { SEO } from '../components/seo/SEO';
 
 const DEFAULT_USER_NAME = 'demo@localhost';
 
@@ -40,6 +41,11 @@ export function AuthPage() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center font-sans selection:bg-blue-500/30 p-6 relative overflow-hidden">
+      <SEO 
+        title="Passkey Authentication" 
+        description="Experience the fastest, most secure way to sign in using your device's built-in biometrics like Touch ID or Windows Hello."
+        canonical="https://SamyRai.github.io/web-crypto-auth-showcase/auth"
+      />
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/20 via-transparent to-transparent"></div>
       
       <main className="w-full max-w-md flex flex-col gap-8 animate-fade-in-up">

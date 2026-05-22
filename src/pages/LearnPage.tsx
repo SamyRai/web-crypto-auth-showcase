@@ -11,6 +11,7 @@ import {
   AdjacentApisSection,
   ReferencesSection,
 } from '../components/learn';
+import { SEO } from '../components/seo/SEO';
 
 interface LocationState {
   method?: 'passkey' | 'demo';
@@ -40,6 +41,11 @@ export function LearnPage() {
 
   return (
     <div className="min-h-screen font-sans selection:bg-blue-500/30 text-stone-900 dark:text-stone-100 relative overflow-hidden">
+      <SEO 
+        title="Learn WebAuthn & Web Crypto" 
+        description="Dive deep into WebAuthn, passkeys, Web Crypto, and secure key storage through interactive documentation."
+        canonical="https://SamyRai.github.io/web-crypto-auth-showcase/learn"
+      />
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-blue-100/50 via-stone-50 to-stone-100 dark:from-blue-900/10 dark:via-black dark:to-black"></div>
       <div className="max-w-7xl mx-auto px-6 py-12">
         <header className="mb-12 animate-fade-in-up">

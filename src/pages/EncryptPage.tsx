@@ -9,6 +9,7 @@ import {
   EncryptTheorySection,
   SecureContextAlert,
 } from '../components/encrypt';
+import { SEO } from '../components/seo/SEO';
 
 export function EncryptPage() {
   const secure = useSecureContext();
@@ -30,6 +31,11 @@ export function EncryptPage() {
 
   return (
     <div className="min-h-screen bg-stone-50 dark:bg-stone-950 text-stone-900 dark:text-stone-100">
+      <SEO 
+        title="Encrypt a Secret" 
+        description="Password-based encryption in the browser using Web Crypto API. PBKDF2 + AES-GCM demo where keys never leave the page."
+        canonical="https://SamyRai.github.io/web-crypto-auth-showcase/encrypt"
+      />
       <div className="max-w-3xl mx-auto px-6 py-12">
         <header className="mb-10">
           <Link

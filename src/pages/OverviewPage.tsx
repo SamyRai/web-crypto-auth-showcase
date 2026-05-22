@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { SEO } from '../components/seo/SEO';
 
 const SECTIONS = [
   {
@@ -29,6 +30,18 @@ const SECTIONS = [
 export function OverviewPage() {
   return (
     <div className="min-h-screen text-stone-900 dark:text-stone-100 font-sans selection:bg-blue-500/30">
+      <SEO 
+        title="Home" 
+        description="WebAuthn and Web Crypto API showcase. Learn how passkeys and cryptography work in the browser."
+        canonical="https://SamyRai.github.io/web-crypto-auth-showcase/"
+        schema={JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          "name": "WebAuthn & Web Crypto Showcase",
+          "applicationCategory": "EducationalApplication",
+          "description": "Passkeys (WebAuthn), Web Crypto (encryption, keys, hashing, signatures), and secure context demos."
+        })}
+      />
       <div className="max-w-3xl mx-auto px-6 py-20 animate-fade-in-up">
         <header className="text-center mb-16 relative">
           <div className="absolute inset-0 -z-10 bg-gradient-to-r from-blue-500/20 to-purple-500/20 blur-3xl rounded-full scale-150 opacity-50 dark:opacity-30"></div>
