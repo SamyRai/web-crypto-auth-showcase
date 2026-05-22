@@ -1,5 +1,10 @@
 # web-crypto-auth-showcase
 
+[![CI](https://github.com/SamyRai/web-crypto-auth-showcase/actions/workflows/ci.yml/badge.svg)](https://github.com/SamyRai/web-crypto-auth-showcase/actions/workflows/ci.yml)
+[![Deploy to GitHub Pages](https://github.com/SamyRai/web-crypto-auth-showcase/actions/workflows/pages.yml/badge.svg)](https://github.com/SamyRai/web-crypto-auth-showcase/actions/workflows/pages.yml)
+
+**[Live Demo](https://SamyRai.github.io/web-crypto-auth-showcase/)**
+
 A React + TypeScript + Vite app that demonstrates **browser security and cryptography**: passkeys (WebAuthn), Web Crypto (password-based and public-key encryption, hashing, key derivation, signatures), and secure context. All demos run in the browser; no server required.
 
 ## Stack

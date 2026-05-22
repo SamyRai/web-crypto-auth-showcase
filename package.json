@@ -2,6 +2,7 @@
   "name": "web-crypto-auth-showcase",
   "version": "1.0.0",
   "description": "A React + TypeScript + Vite app that demonstrates browser security and cryptography.",
+  "homepage": "https://SamyRai.github.io/web-crypto-auth-showcase/",
   "author": "web-crypto-auth-showcase contributors",
   "license": "MIT",
   "repository": {
