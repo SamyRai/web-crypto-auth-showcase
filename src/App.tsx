@@ -10,7 +10,7 @@ import { CertChatPage } from './pages/CertChatPage';
 function App() {
   return (
     <EnvironmentProvider>
-      <BrowserRouter>
+      <BrowserRouter basename={import.meta.env.BASE_URL}>
         <Routes>
           <Route element={<AppLayout />}>
             <Route path="/" element={<OverviewPage />} />
