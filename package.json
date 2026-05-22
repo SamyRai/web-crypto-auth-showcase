@@ -1,7 +1,13 @@
 {
   "name": "web-crypto-auth-showcase",
-  "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "A React + TypeScript + Vite app that demonstrates browser security and cryptography.",
+  "author": "web-crypto-auth-showcase contributors",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/web-crypto-auth-showcase.git"
+  },
   "type": "module",
   "scripts": {
     "dev": "vite",

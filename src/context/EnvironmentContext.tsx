@@ -1,31 +1,39 @@
 import {
   createContext,
-  useMemo,
+  useEffect,
+  useState,
   type ReactNode,
 } from 'react';
-import { checkWebAuthnSupport } from '../lib/webauthn';
+import { checkWebAuthnSupport, type WebAuthnSupport } from '../lib/webauthn';
 import { isSecureContext } from '../lib/secure-context';
 
 export interface EnvironmentState {
   isSecureContext: boolean;
-  webauthnSupport: ReturnType<typeof checkWebAuthnSupport>;
+  webauthnSupport: WebAuthnSupport;
 }
 
 const defaultState: EnvironmentState = {
   isSecureContext: false,
-  webauthnSupport: { supported: false, conditionalMediation: false },
+  webauthnSupport: { supported: false, platformAuthenticator: false, conditionalMediation: false },
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const EnvironmentContext = createContext<EnvironmentState>(defaultState);
 
 export function EnvironmentProvider({ children }: { children: ReactNode }) {
-  const value = useMemo<EnvironmentState>(() => ({
+  const [state, setState] = useState<EnvironmentState>(() => ({
     isSecureContext: isSecureContext(),
-    webauthnSupport: checkWebAuthnSupport(),
-  }), []);
+    webauthnSupport: defaultState.webauthnSupport,
+  }));
+
+  useEffect(() => {
+    checkWebAuthnSupport().then((webauthnSupport) => {
+      setState((prev) => ({ ...prev, webauthnSupport }));
+    });
+  }, []);
 
   return (
-    <EnvironmentContext.Provider value={value}>
+    <EnvironmentContext.Provider value={state}>
       {children}
     </EnvironmentContext.Provider>
   );

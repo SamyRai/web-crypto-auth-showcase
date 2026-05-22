@@ -26,24 +26,49 @@ export function generateDemoChallenge(): Uint8Array {
 
 export interface WebAuthnSupport {
   supported: boolean;
+  platformAuthenticator: boolean;
   conditionalMediation: boolean;
   message?: string;
 }
 
 /**
- * Check if WebAuthn / passkeys are supported in this browser.
+ * Check if WebAuthn / passkeys are supported in this browser, including
+ * conditional UI and platform authenticator availability.
  */
-export function checkWebAuthnSupport(): WebAuthnSupport {
+export async function checkWebAuthnSupport(): Promise<WebAuthnSupport> {
   if (typeof window === 'undefined') {
-    return { supported: false, conditionalMediation: false, message: 'Not in browser' };
+    return { supported: false, platformAuthenticator: false, conditionalMediation: false, message: 'Not in browser' };
   }
   if (!window.PublicKeyCredential) {
-    return { supported: false, conditionalMediation: false, message: 'WebAuthn not supported' };
+    return { supported: false, platformAuthenticator: false, conditionalMediation: false, message: 'WebAuthn not supported' };
   }
+
+  let platformAuthenticator = false;
+  let conditionalMediation = false;
+
+  if (PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable) {
+    try {
+      platformAuthenticator = await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
+    } catch (e) {
+      console.warn('isUserVerifyingPlatformAuthenticatorAvailable failed', e);
+    }
+  }
+
+  if (PublicKeyCredential.isConditionalMediationAvailable) {
+    try {
+      conditionalMediation = await PublicKeyCredential.isConditionalMediationAvailable();
+    } catch (e) {
+      console.warn('isConditionalMediationAvailable failed', e);
+    }
+  }
+
   return {
     supported: true,
-    conditionalMediation: false,
-    message: 'Passkeys supported',
+    platformAuthenticator,
+    conditionalMediation,
+    message: platformAuthenticator 
+      ? 'Passkeys supported (Local Authenticator available)' 
+      : 'Passkeys supported (Cross-device or Security Key)',
   };
 }
 
@@ -173,7 +198,7 @@ export async function registerPasskey(userName: string): Promise<
  * Run WebAuthn authentication (get assertion) using browser APIs.
  * For demo, challenge is generated client-side; production must use server challenge.
  */
-export async function authenticateWithPasskey(): Promise<
+export async function authenticateWithPasskey(useConditionalUI = false): Promise<
   AuthenticateWithPasskeyResult | AuthenticateWithPasskeyError
 > {
   if (typeof navigator === 'undefined' || !navigator.credentials) {
@@ -204,6 +229,7 @@ export async function authenticateWithPasskey(): Promise<
   try {
     const credential = await navigator.credentials.get({
       publicKey: publicKeyOptions,
+      mediation: useConditionalUI ? 'conditional' : 'optional',
     });
 
     if (!credential || !(credential instanceof PublicKeyCredential)) {

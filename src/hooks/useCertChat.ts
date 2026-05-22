@@ -234,3 +234,125 @@ export function useDecryptWithDebug() {
     reset,
   };
 }
+
+export interface ChatMessage {
+  id: string;
+  sender: 'me' | 'contact';
+  plaintext: string | null;
+  ciphertextBase64: string;
+  timestamp: Date;
+  isDecrypted?: boolean;
+}
+
+export function useChatConversation(myPrivateKeyBase64: string | null) {
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [contactPublicKeyBase64, setContactPublicKeyBase64] = useState('');
+  const [isEncrypting, setIsEncrypting] = useState(false);
+  const [isDecrypting, setIsDecrypting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const sendMessage = useCallback(
+    async (text: string) => {
+      if (!contactPublicKeyBase64.trim()) {
+        setError('Contact public key is missing.');
+        return;
+      }
+      setIsEncrypting(true);
+      setError(null);
+      try {
+        const publicKey = await importPublicKeySpki(contactPublicKeyBase64.trim());
+        const enc = new TextEncoder().encode(text);
+        if (enc.byteLength > RSA_OAEP_MAX_PLAINTEXT_BYTES) {
+          throw new Error(`Message too long (max ${RSA_OAEP_MAX_PLAINTEXT_BYTES} bytes)`);
+        }
+        const ciphertext = await encryptWithPublicKey(publicKey, text);
+        const newMessage: ChatMessage = {
+          id: crypto.randomUUID(),
+          sender: 'me',
+          plaintext: text,
+          ciphertextBase64: ciphertext,
+          timestamp: new Date(),
+        };
+        setMessages((prev) => [...prev, newMessage]);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Encryption failed');
+      } finally {
+        setIsEncrypting(false);
+      }
+    },
+    [contactPublicKeyBase64]
+  );
+
+  const simulateReceive = useCallback(async (text: string, myPublicKeyBase64: string | null) => {
+    if (!myPublicKeyBase64) {
+      setError('You need to generate your key pair first.');
+      return;
+    }
+    setIsEncrypting(true);
+    setError(null);
+    try {
+      const publicKey = await importPublicKeySpki(myPublicKeyBase64.trim());
+      const ciphertext = await encryptWithPublicKey(publicKey, text);
+      const newMessage: ChatMessage = {
+        id: crypto.randomUUID(),
+        sender: 'contact',
+        plaintext: null,
+        ciphertextBase64: ciphertext,
+        timestamp: new Date(),
+        isDecrypted: false,
+      };
+      setMessages((prev) => [...prev, newMessage]);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Simulated encryption failed');
+    } finally {
+      setIsEncrypting(false);
+    }
+  }, []);
+
+  const decryptMessage = useCallback(
+    async (messageId: string) => {
+      if (!myPrivateKeyBase64) {
+        setError('Your private key is missing.');
+        return;
+      }
+      setIsDecrypting(true);
+      setError(null);
+      try {
+        const privateKey = await importPrivateKeyPkcs8(myPrivateKeyBase64.trim());
+        const targetMessage = messages.find((m) => m.id === messageId);
+        if (!targetMessage) throw new Error('Message not found');
+
+        const decryptedText = await decryptWithPrivateKey(privateKey, targetMessage.ciphertextBase64);
+        
+        setMessages((prev) =>
+          prev.map((m) =>
+            m.id === messageId ? { ...m, plaintext: decryptedText, isDecrypted: true } : m
+          )
+        );
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Decryption failed. Ensure you have the correct private key.');
+      } finally {
+        setIsDecrypting(false);
+      }
+    },
+    [myPrivateKeyBase64, messages]
+  );
+
+  const clearChat = useCallback(() => {
+    setMessages([]);
+    setError(null);
+  }, []);
+
+  return {
+    messages,
+    contactPublicKeyBase64,
+    setContactPublicKeyBase64,
+    sendMessage,
+    simulateReceive,
+    decryptMessage,
+    clearChat,
+    isEncrypting,
+    isDecrypting,
+    error,
+  };
+}

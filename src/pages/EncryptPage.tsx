@@ -22,7 +22,7 @@ export function EncryptPage() {
       decrypt.setSalt(encrypt.encResult.saltBase64);
       decrypt.setIv(encrypt.encResult.ivBase64);
     }
-  }, [encrypt.encResult, decrypt.setCiphertext, decrypt.setSalt, decrypt.setIv]);
+  }, [encrypt.encResult, decrypt, decrypt.setCiphertext, decrypt.setSalt, decrypt.setIv]);
 
   const handleEncrypt = async () => {
     await encrypt.encrypt();

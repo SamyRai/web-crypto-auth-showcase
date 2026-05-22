@@ -1,0 +1,50 @@
+{
+  "manualExchange": {
+    "title": "Manual Copy-Paste",
+    "content": "We don’t “send” the key over the network. You copy and paste it out-of-band. That’s secure as long as the channel you use to share the key (e.g., meeting in person) is trusted. No server is involved."
+  },
+  "keyExchangeProblem": {
+    "title": "The Key Exchange Problem",
+    "content": "If a server sends 'Bob's public key', an attacker could replace it with their own (man-in-the-middle) and read everything. Distribution and verification are the two halves of the problem."
+  },
+  "outOfBand": {
+    "title": "Out-of-band Verification",
+    "content": "Signal/WhatsApp: each device has a fingerprint; you scan the other's QR code or compare safety numbers. That’s out-of-band verification of the key the server already gave you."
+  },
+  "keyDirectory": {
+    "title": "Key Directory / Server",
+    "content": "Apps like Signal fetch keys from a server using protocols (like X3DH) so the server never sees the shared secret. They offer manual verification to protect against compromised servers."
+  },
+  "pki": {
+    "title": "PKI & Certificate Authorities",
+    "content": "For websites, the 'key' is the server's certificate. The browser checks its signature against trusted CAs. No manual paste; the key is exchanged in the TLS handshake."
+  },
+  "tofu": {
+    "title": "Trust On First Use (TOFU)",
+    "content": "Used by SSH: First time you connect, you accept the server's key. Later, if the key changes, you get a warning (possible MITM)."
+  },
+  "pgp": {
+    "title": "PGP Web of Trust",
+    "content": "Public keys are uploaded to keyservers. Others sign Alice's key; if you trust the signers, you trust the key. Or you do a fingerprint check out-of-band."
+  },
+  "secureContext": {
+    "title": "Secure Context",
+    "content": "window.isSecureContext is true only on HTTPS or localhost. Web Crypto and WebAuthn require it to limit exposure to MITM."
+  },
+  "digest": {
+    "title": "Digest (Hashing)",
+    "content": "crypto.subtle.digest() provides SHA-256 for integrity and fingerprints. Same input → same output; one-way. Not for password storage."
+  },
+  "signVerify": {
+    "title": "Sign & Verify",
+    "content": "RSA-PSS or ECDSA prove authenticity: only the holder of the private key can produce a valid signature; anyone with the public key can verify."
+  },
+  "spkiFormat": {
+    "title": "SPKI Format",
+    "content": "Subject Public Key Info (SPKI) is a standard format for public keys. In this demo we use base64 encoding."
+  },
+  "rsaOaep": {
+    "title": "RSA-OAEP Limitations",
+    "content": "RSA-OAEP (2048-bit) can only encrypt very short messages (~190 bytes). For longer messages, apps use hybrid encryption (AES + RSA)."
+  }
+}

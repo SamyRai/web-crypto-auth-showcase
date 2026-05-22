@@ -2,7 +2,7 @@
  * Displays current browser security context: isSecureContext, crypto.subtle, getRandomValues.
  */
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 interface SecurityContextState {
   isSecureContext: boolean;
@@ -28,13 +28,7 @@ function getState(): SecurityContextState {
 }
 
 export function SecurityContextSection() {
-  const [state, setState] = useState<SecurityContextState | null>(null);
-
-  useEffect(() => {
-    setState(getState());
-  }, []);
-
-  if (state === null) return null;
+  const [state] = useState<SecurityContextState>(() => getState());
 
   const allOk = state.isSecureContext && state.hasCryptoSubtle && state.hasGetRandomValues;
 
